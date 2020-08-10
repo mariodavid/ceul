@@ -22,6 +22,8 @@ public class LogEntryGenerationServiceBean implements LogEntryGenerationService 
 
     @Inject
     protected DataManager dataManager;
+    @Inject
+    protected LogEntryService logEntryService;
 
     @Override
     public void generate(Entity loggable, int amount) {
@@ -31,7 +33,7 @@ public class LogEntryGenerationServiceBean implements LogEntryGenerationService 
                     final List<LogLevel> allLevels = list(LogLevel.class);
                     final List<LogEntryCategory> allCategories = list(LogEntryCategory.class);
 
-                    createLogEntry(
+                    logEntryService.createLogEntry(
                             loggable,
                             "hello " + value,
                             "hello world " + value,
@@ -40,18 +42,6 @@ public class LogEntryGenerationServiceBean implements LogEntryGenerationService 
                     );
                 });
 
-    }
-
-    private void createLogEntry(Entity loggable, String message, String detailedMessage, LogLevel level, LogEntryCategory category) {
-        LogEntry logEntry = dataManager.create(LogEntry.class);
-
-        logEntry.setLoggable(loggable);
-        logEntry.setMessage(message);
-        logEntry.setDetailedMessage(detailedMessage);
-        logEntry.setLevel(level);
-        logEntry.setCategory(category);
-
-        dataManager.commit(logEntry);
     }
 
 

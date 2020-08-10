@@ -1,5 +1,6 @@
 package com.company.ceul.entity;
 
+import com.haulmont.chile.core.annotations.NamePattern;
 import com.haulmont.cuba.core.entity.StandardEntity;
 
 import javax.persistence.Column;
@@ -8,6 +9,7 @@ import javax.persistence.Table;
 
 @Table(name = "CEUL_IMPORT_ENTRY")
 @Entity(name = "ceul_ImportEntry")
+@NamePattern("%s|customerName")
 public class ImportEntry extends StandardEntity {
     private static final long serialVersionUID = 950263861713179977L;
 
