@@ -2,14 +2,16 @@
 buildscript {
     ext.cubaVersion = '7.2.7'
     repositories {
-        mavenLocal()
         maven {
             url 'https://dl.bintray.com/cuba-platform/main'
-            
+
+        }
+        maven {
+            url 'https://dl.bintray.com/mariodavid/cuba-components'
         }
         jcenter()
 
-        
+
     }
     dependencies {
         classpath "com.haulmont.gradle:cuba-plugin:$cubaVersion"
@@ -36,7 +38,7 @@ cuba {
 
 dependencies {
     appComponent("com.haulmont.cuba:cuba-global:$cubaVersion")
-    appComponent('de.diedavids.cuba.loggable:loggable-global:0.1.0-SNAPSHOT')
+    appComponent('de.diedavids.cuba.loggable:loggable-global:0.1.2')
 }
 
 def hsql = 'org.hsqldb:hsqldb:2.4.1'

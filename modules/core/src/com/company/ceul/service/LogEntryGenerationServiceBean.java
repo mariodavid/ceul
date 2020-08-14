@@ -3,7 +3,7 @@ package com.company.ceul.service;
 import com.haulmont.cuba.core.entity.Entity;
 import com.haulmont.cuba.core.global.DataManager;
 import com.haulmont.cuba.core.global.ViewBuilder;
-import de.diedavids.cuba.loggable.entity.LogEntry;
+import de.diedavids.cuba.loggable.LogEntries;
 import de.diedavids.cuba.loggable.entity.LogEntryCategory;
 import de.diedavids.cuba.loggable.entity.LogLevel;
 import de.diedavids.cuba.loggable.service.LogEntryService;
@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.inject.Inject;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.function.Consumer;
@@ -24,6 +23,8 @@ public class LogEntryGenerationServiceBean implements LogEntryGenerationService 
     protected DataManager dataManager;
     @Inject
     protected LogEntryService logEntryService;
+    @Inject
+    protected LogEntries logEntries;
 
     @Override
     public void generate(Entity loggable, int amount) {
@@ -32,16 +33,24 @@ public class LogEntryGenerationServiceBean implements LogEntryGenerationService 
                 .forEach(value -> {
                     final List<LogLevel> allLevels = list(LogLevel.class);
                     final List<LogEntryCategory> allCategories = list(LogEntryCategory.class);
-
-                    logEntryService.createLogEntry(
-                            loggable,
-                            "hello " + value,
-                            "hello world " + value,
-                            randomOfList(allLevels),
-                            randomOfList(allCategories)
-                    );
+                    generateLogEntry(loggable, value, allLevels, allCategories);
                 });
+    }
 
+    private void generateLogEntry(
+            Entity loggable,
+            int value,
+            List<LogLevel> allLevels,
+            List<LogEntryCategory> allCategories
+    ) {
+        logEntryService.createLogEntry(
+                logEntries.message(loggable)
+                        .withLevel(randomOfList(allLevels))
+                        .withCategory(randomOfList(allCategories))
+                        .withMessage("hello " + value)
+                        .withDetailedMessage("hello world " + value)
+                        .build()
+        );
     }
 
 

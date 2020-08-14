@@ -13,11 +13,22 @@
     <dialogMode height="600"
                 width="800"/>
     <layout expand="editActions" spacing="true">
-        <form id="form" dataContainer="importEntryDc">
-            <column width="350px">
-                <textField id="customerNameField" property="customerName"/>
-            </column>
-        </form>
+        <tabSheet id="tabSheet">
+            <tab id="general" caption="General" spacing="true" margin="true">
+                <form id="form" dataContainer="importEntryDc">
+                    <column width="350px">
+                        <textField id="customerNameField" property="customerName"/>
+                    </column>
+                </form>
+            </tab>
+            <tab id="logEntries" caption="msg://logEntries" spacing="true" margin="true">
+                <fragment screen="ddcl_EntityLogEntriesFragment">
+                    <properties>
+                        <property name="loggableDc" ref="importEntryDc"/>
+                    </properties>
+                </fragment>
+            </tab>
+        </tabSheet>
         <hbox id="editActions" spacing="true">
             <button action="windowCommitAndClose"/>
             <button action="windowClose"/>
